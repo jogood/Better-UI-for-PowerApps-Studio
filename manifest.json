@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Better UI for PowerApps studio",
+  "version": "0.1.4",
+  "description": "Modify CSS and HTML PowerApps",
+  "permissions": [
+    "tabs",
+    "storage",
+    "declarativeContent",
+    "activeTab"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  
+  "page_action": {
+      "default_title": "Apply css",
+      "default_popup": "index.html",
+    "default_icon": {
+      "16": "img.png"
+    }
+  }
+}
