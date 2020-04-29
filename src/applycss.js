@@ -1,4 +1,3 @@
-var bkg = chrome.extension.getBackgroundPage();
 
 document.getElementById("applycss").addEventListener("click", () => {
   function modifyDOM() {

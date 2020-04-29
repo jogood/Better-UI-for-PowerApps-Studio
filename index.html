@@ -2,13 +2,23 @@
 <html>
   <head> </head>
   <body>
-    <button id="applycss">Apply css</button>
-    <button id="mouselock">Mouse lock</button>
-    <button id="removemouselock">Remove mouse lock</button>
-
-    <!-- <button id="reset">Reset</button> -->
-    <script src="applycss.js"></script>
-    <script src="mouselock.js"></script>
-
+    <div style="display: flex; justify-content: start; width: 320px;">
+      <div style="height: auto;">
+        <button style="height: 100%;" id="applycss">Apply css</button>
+      </div>
+      <div style="display: flex; flex-direction: column; max-width: 20%;">
+        <button id="mouselock">
+          Mouse lock
+        </button>
+        <button id="removemouselock">Remove mouse lock</button>
+      </div>
+      <div sytle="height:auto;">
+        <button id="shiftselect">Shift select</button>
+      </div>
+    </div>
+    <script src="src/common.js"></script>
+    <script src="src/applycss.js"></script>
+    <script src="src/mouselock.js"></script>
+    <script src="src/shiftselection.js"></script>
   </body>
 </html>

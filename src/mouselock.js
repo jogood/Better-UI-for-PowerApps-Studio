@@ -66,7 +66,7 @@ function LockComponents() {
     document.body.appendChild(pluginHolder);
   }
 }
-bkg.console.log("START");
+
 chrome.tabs.executeScript(
   {
     code: ";var mouseLockActivated=" + mouseLockActivated + ";(" + LockComponents + ")();", //argument here is a string but function.toString() returns function's code
@@ -84,16 +84,16 @@ chrome.tabs.executeScript(
   }
 );
 
-function setPlugin() {
-  var scriptID = "pluginHolder";
-  var pluginHolder = document.getElementById(scriptID);
-  pluginHolder.onchange(mouseLockActivated);
-}
+
 
 document.getElementById("mouselock").addEventListener("click", () => {
   bkg.console.log("Click Lock index");
   mouseLockActivated = !mouseLockActivated;
-
+  function setPlugin() {
+    var scriptID = "pluginHolder";
+    var pluginHolder = document.getElementById(scriptID);
+    pluginHolder.onchange(mouseLockActivated);
+  }
   chrome.tabs.executeScript(
     {
       code: "var mouseLockActivated=" + mouseLockActivated + ";(" + setPlugin + ")();", //argument here is a string but function.toString() returns function's code
@@ -111,7 +111,7 @@ document.getElementById("mouselock").addEventListener("click", () => {
 function removePlugin() {
   console.log("IN");
   var pluginHolder = document.getElementById("pluginHolder");
-  pluginHolder.onchange(false);
+  if (pluginHolder.onchange != null) pluginHolder.onchange(false);
   pluginHolder.remove();
 }
 document.getElementById("removemouselock").addEventListener("click", () => {
