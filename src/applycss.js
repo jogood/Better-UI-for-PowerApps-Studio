@@ -1,30 +1,45 @@
-
 document.getElementById("applycss").addEventListener("click", () => {
-  function modifyDOM() {
-    // Test
-    // if (mod) {
-    //   document.getElementsByClassName("authoring-shell-root")[0].style.color = "orange";
-    // } else {
-    //   document.getElementsByClassName("authoring-shell-root")[0].style.color = "blue";
-    // }
+  function applyCss() {
+    // This can be used to make a custom panel to make user configs for UI styles
+    function getPropertyByStrings(e, listString) {
+      var prop = e;
+      listString.map((s) => {
+        var idxO = s.indexOf("[");
+        if (idxO != -1) {
+          var idxC = s.indexOf("]");
+          var index = parseInt(s.substring(idxO+1,idxC))
+          prop = prop[s.substring(0,idxO)][index];
+        } else {
+          prop = prop[s];
+        }
+      });
+      return prop;
+    }
+
     for (var i = 0; i < document.getElementsByClassName("root")[0].childElementCount; i++) {
       var element = document.getElementsByClassName("root")[0].children[i];
       if (element.ariaLabel) {
-        // console.log("_");
         var s = element.ariaLabel + "";
         // Arialabel begins with en-tête. But there is a problem with ê, so just check for en-t
         if (s.toLowerCase().indexOf("en-t") != -1) {
-          // console.log(element);
-
           element.style.display = "none";
         } else if (s.toLowerCase().indexOf("ruban") != -1) {
           // console.log(element);
           element.style.top = "0px";
         } else if (s.toLowerCase().indexOf("barre de navigation lat") != -1) {
-          // console.log(element);
           element.style.top = "120px";
           // Arborescence
           element.children[0].children[0].children[1].style.width = "320px";
+          
+          // // Test with getPropertyByStrings (the following works)
+          // var p = getPropertyByStrings(element, [
+          //   "children[0]",
+          //   "children[0]",
+          //   "children[1]",
+          //   "style",
+          // ]);
+          // p.width = "320px";
+          
         }
       }
     }
@@ -47,18 +62,12 @@ document.getElementById("applycss").addEventListener("click", () => {
       "react-ko-host-container"
     )[0].parentElement.parentElement.style.width = "100%";
 
-    // console.log("Css applied");
-    // console.log(document);
-    // Display body in page's console
-    // console.log('Tab script:');
-    // console.log(document.body);
     return document.body.innerHTML;
   }
 
-  //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
   chrome.tabs.executeScript(
     {
-      code: "(" + modifyDOM + ")();", //argument here is a string but function.toString() returns function's code
+      code: "(" + applyCss + ")();", //argument here is a string but function.toString() returns function's code
     },
     (results) => {
       console.log("Popup script:");
@@ -66,4 +75,3 @@ document.getElementById("applycss").addEventListener("click", () => {
     }
   );
 });
-

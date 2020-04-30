@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(function () {
   console.log("Better UI for PowerApps Studio extension initialized");
 });
 
-var matches = ["https://us.create.powerapps.com/studio/#", "://us.create.powerapps.com/studio/#"];
+var matches = ["https://us.create.powerapps.com/studio/", ".create.powerapps.com/studio/"];
 // var pageIDList = [];
 chrome.tabs.onActivated.addListener(function (activeInfo) {
     setTimeout(function(){
