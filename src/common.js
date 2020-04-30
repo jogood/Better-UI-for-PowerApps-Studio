@@ -12,9 +12,10 @@ function getOrCreatePluginHolder(scriptID, activated, onchange) {
     pluginHolder = document.createElement("div");
     pluginHolder.id = scriptID;
     pluginHolder.type = "text";
-    pluginHolder.innerHTML = activated;
+    // pluginHolder.innerHTML = activated;
     pluginHolder.onchange = onchange;
     document.body.appendChild(pluginHolder);
+    pluginHolder.onchange(activated,scriptID);
     return pluginHolder;
   }
 }

@@ -11,7 +11,7 @@ function mouselock() {
       : "Mouse lock disabled";
   }
 
-  function pluginOnChange(data) {
+  function pluginOnChange(data,scriptID) {
     console.log("LockComponent started");
     var element = null;
     var canvas = document.getElementsByClassName("animated-canvas-centering-box")[0];
@@ -44,17 +44,11 @@ function mouselock() {
         // }
       }, 20);
     };
-    // if (document.getElementById(scriptID)) {
-    pluginHolder = document.getElementById("lockplugin");
-    // } else {
-    // pluginHolder = document.createElement("div");
-    // pluginHolder.id = scriptID;
-    // pluginHolder.type = "text";
-    // pluginHolder.innerHTML = mouseLockActivated;
-    pluginHolder.onchange = function (data) {
+    pluginHolder = document.getElementById(scriptID);
+    pluginHolder.onchange = function (d) {
       console.log("onchange");
-      console.log(data);
-      if (data == false) {
+      console.log(d);
+      if (d == false) {
         document.removeEventListener("mousedown", mouseDown, true);
         document.removeEventListener("mouseup", mouseUp, true);
       } else {
@@ -64,6 +58,7 @@ function mouselock() {
       // };
       // document.body.appendChild(pluginHolder);
     };
+    pluginHolder.onchange(data);
   }
 
   function initialisation() {
@@ -85,9 +80,9 @@ function mouselock() {
             ");", //argument here is a string but function.toString() returns function's code
         },
         (results) => {
-          // ctx.pluginElement = results[0];
-          // ctx.pluginElement.onchange = pluginOnChange;
-          // bkg.console.log(ctx.pluginElement);
+          bkg.console.log("Initialized plugin holder (mouse lock)");
+          bkg.console.log(results);
+          
         }
       );
     });
