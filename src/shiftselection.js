@@ -1,64 +1,85 @@
-var config = {
-  scriptID: "shiftplugin",
-  shiftSelectActivated: false,
-};
+function shiftselection() {
+  var ctx = {
+    scriptID: "shiftplugin",
+    pluginActivated: false,
+    // pluginElement: null,
+  };
 
-var ctx = {
-  shiftPlugin: null,
-};
+  function onShowShiftSelectionButton() {
+    document.getElementById("shiftselect").textContent = ctx.pluginActivated
+      ? "Shift selection activated"
+      : "Shift selection disabled";
+  }
 
-function onShowShiftSelectionButton() {
-  document.getElementById("shiftselect").textContent = shiftSelectActivated
-    ? "Shift selection activated"
-    : "Shift selection disabled";
-}
+  function pluginOnChange(data) {
+    console.log(data);
+  }
 
-// Initialize plugin
-function initialization() {
-  chrome.tabs.executeScript(
-    {
-      code:
-        "(" + getPluginHolder + ")('" + config.scriptID + "'," + config.shiftSelectActivated + ");", //argument here is a string but function.toString() returns function's code
-    },
-    (results) => {
-      ctx.shiftPlugin = results[0];
-      ctx.shiftPlugin.onchange = function (data) {
-        console.log(data);
-      };
-      bkg.console.log(ctx.shiftPlugin);
-    }
-  );
-  chrome.storage.sync.get("shiftSelectActivated", function (result) {
-	config.shiftSelectActivated = result.mouseLockActivated;
-	onShowShiftSelectionButton();
+  // Initialize plugin
+  function initialization() {
+
+    chrome.storage.sync.get("shiftSelectActivated", function (result) {
+
+      ctx.pluginActivated = result.shiftSelectActivated;
+      onShowShiftSelectionButton();
+      chrome.tabs.executeScript(
+        {
+          code:
+            "(" +
+            getOrCreatePluginHolder +
+            ")('" +
+            ctx.scriptID +
+            "'," +
+            ctx.pluginActivated +
+            "," +
+            pluginOnChange +
+            ");", //argument here is a string but function.toString() returns function's code
+        },
+        (results) => {
+
+        //   ctx.pluginElement = results[0];
+          // ctx.pluginElement.onchange = function (data) {};
+        //   bkg.console.log(ctx.pluginElement);
+        }
+      );
+    });
+  }
+
+  initialization();
+
+  document.getElementById("shiftselect").addEventListener("click", () => {
+    bkg.console.log("Click shift index");
+    ctx.pluginActivated = !ctx.pluginActivated;
+    chrome.tabs.executeScript(
+      {
+        code: "(" + setPluginHolder + ")('" + ctx.scriptID + "'," + ctx.pluginActivated + ");", //argument here is a string but function.toString() returns function's code
+      },
+      (results) => {
+        chrome.storage.sync.set({ shiftSelectActivated: ctx.pluginActivated }, function () {
+          onShowMouseLockButton();
+        });
+      }
+    );
   });
+  document.getElementById("removeshiftselect").addEventListener("click", () => {
+    chrome.tabs.executeScript(
+      {
+        code: "(" + removePlugin + ")('" + ctx.scriptID + "')",
+      },
+      (results) => {}
+    );
+  });
+
+  // var simulateCtrlClick = function simulateCtrlClick(elem) {
+  // 	// Create our event (with options)
+  // 	var evt = new MouseEvent('click', {
+  // 		bubbles: true,
+  // 		cancelable: true,
+  //         ctrlKey: true,
+  // 		view: window
+  // 	});
+  // 	// If cancelled, don't dispatch our event
+  // 	var canceled = !elem.dispatchEvent(evt);
+  // };
 }
-
-initialization();
-
-document.getElementById("shiftselect").addEventListener("click", () => {
-  bkg.console.log("Click shift index");
-  config.shiftSelectActivated = !config.shiftSelectActivated;
-  chrome.tabs.executeScript(
-    {
-      code: "(" + setPluginHolder + ")("+config.scriptID+","+config.shiftSelectActivated+");", //argument here is a string but function.toString() returns function's code
-    },
-    (results) => {
-      chrome.storage.sync.set({ shiftSelectActivated: config.shiftSelectActivated }, function () {
-        onShowMouseLockButton();
-      });
-    }
-  );
-});
-
-// var simulateCtrlClick = function simulateCtrlClick(elem) {
-// 	// Create our event (with options)
-// 	var evt = new MouseEvent('click', {
-// 		bubbles: true,
-// 		cancelable: true,
-//         ctrlKey: true,
-// 		view: window
-// 	});
-// 	// If cancelled, don't dispatch our event
-// 	var canceled = !elem.dispatchEvent(evt);
-// };
+shiftselection();
