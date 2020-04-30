@@ -8,11 +8,12 @@ This extension helps making a better workspace for PowerApps developement.
 
 ![](demo/ApplyCssDemo.gif)
 
-- Pointer lock to prevent moving components
-
 - Shift selection
 
 ![](demo/ShiftDemo.gif)
+
+- Pointer lock to prevent moving components
+
 
 # Note
 
