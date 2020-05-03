@@ -22,8 +22,8 @@ This extension helps making a better workspace for PowerApps developement.
 
 # How to use
 
-Go to chrome://extensions, enable developer mode and drop the folder on the page.
-Go into a PowerApps tab, click the blue square on top right of the browser and click Apply.
+Navigate (in your browser) to chrome://extensions, enable developer mode and drop the project's folder on the page.
+Go into a PowerApps tab, click the blue square on top right of the browser and choose the features you want. Currently, you need to press the blue button everytime you want the application to load on a new PowerApps Studio tab.
 
 
 
